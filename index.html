@@ -1,74 +1,709 @@
-<!doctype html>
-<html lang="zh-Hant">
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>集團客戶保險諮詢轉介服務優化試辦</title><link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>利害關係人-相對關係圖</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React & ReactDOM CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  
+  <!-- Babel Standalone for inline JSX processing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.6/babel.min.js"></script>
+  
+  <!-- html2canvas & jsPDF for high quality PDF reporting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.03); border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
+    .touch-none { touch-action: none; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
 </head>
-<body>
-<main class="wrap">
-  <header class="masthead">
-    <p class="brand"><i></i>利害關係人管理 × 影響力溝通</p>
-    <h1>集團客戶保險諮詢<br><em>轉介服務優化試辦</em></h1>
-    <p class="standfirst">兩個部門、三輪對談的跨界協作角色扮演案例。</p>
-    <div class="chips"><span>案例 <b>v0.7</b></span><span>現在 <b>2026/10/01</b></span><span>試辦 <b>2026/11/26</b></span><span>對談 <b>3 輪</b></span></div>
-  </header>
-  <nav class="tabs" role="tablist">
-    <button role="tab" aria-selected="true"><b>01</b>案例背景</button><button role="tab" aria-selected="false"><b>02</b>A 身份卡</button><button role="tab" aria-selected="false"><b>03</b>B 身份卡</button><button role="tab" aria-selected="false"><b>04</b>三輪對談</button><button role="tab" aria-selected="false"><b>05</b>觀察與回饋</button><button role="tab" aria-selected="false"><b>06</b>備課清單</button>
-  </nav>
-
-  <section class="panel">
-    <h2>案例<em>背景</em></h2>
-    <p class="lede">以下為課堂演練情境。</p>
-    <div class="service-note"><small>既有服務</small><p>台新金控目前已有「台新保險規劃馬上約」服務。學員可將本案例想像為：針對自己較熟悉的既有服務，進行跨部門優化討論。</p><a href="https://www.taishinbank.com.tw/eServiceA/insuranceAgent/appointment-step1.jsp" target="_blank" rel="noopener">查看服務頁面 ↗</a></div>
-    <div class="incident">
-      <small>課堂假設｜2026/10/01</small>
-      <h3>假設集團客服通報多起客訴</h3>
-      <ol><li>「我沒有同意，資料為什麼就轉給新光人壽？」</li><li>「預約要填的欄位太多，很難用。」</li><li>「轉介後接洽的人員專業度不足。」</li></ol>
+<body class="bg-slate-100 text-slate-900 min-h-screen">
+  <div id="root">
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; color: #64748b;">
+      系統載入中，請稍候...
     </div>
-    <div class="schedule">
-      <article><time>現況</time><div><b>既有服務</b><p>客戶在銀行數位平台預約保險諮詢；完成資料授權後，由新光人壽人員接續服務。本案例假設該服務近期收到前述客訴，因此決定進行優化。</p></div></article>
-      <article><time>2026/10/29</time><div><b>要交出的內容</b><p>兩個部門要提出試辦流程：如何告知與取得同意、傳哪些資料、提供什麼服務、誰負責什麼。</p></div></article>
-      <article class="stage"><time>2026/11/26</time><div><b>試辦上線</b><p>不得增加預算、人力，或進行高複雜度系統開發。</p></div></article>
-    </div>
-    <aside><small>共同任務</small><strong>設計一個讓客戶願意使用、資料可安心轉送、服務也真正做得到的最小試辦方案。</strong></aside>
-  </section>
+  </div>
 
-  <section class="panel" hidden>
-    <h2>A 組<em>身份卡</em></h2>
-    <p class="lede">你們是「銀行數位轉介與客戶體驗組」。你們負責客戶看到的預約頁面、客戶同意與資料轉介流程。</p>
-    <div class="role-card">
-      <header><b>A</b><h3>銀行數位轉介與客戶體驗組</h3></header>
-      <dl><dt>你們的目標</dt><dd>讓客戶看得懂、願意預約，也清楚知道後續會由誰提供服務。</dd><dt>你們的 KPI</dt><dd>① 預約完成率　② 客戶理解度與客訴下降　③ 如期完成試辦</dd><dt>你們的底線</dt><dd>客戶明確同意前，不得轉送可識別資料；流程不能複雜到讓大量客戶放棄。</dd><dt>你們可討論的空間</dt><dd>試辦客群、服務主題、預約時段與頁面呈現方式。</dd></dl>
-    </div>
-    <aside><small>請記住</small>你們不能只追求「好填」；客戶必須知道資料會交給誰、為什麼交付，以及接下來會發生什麼。</aside>
-  </section>
+  <script type="text/babel">
+    const { useState, useRef, useEffect } = React;
 
-  <section class="panel" hidden>
-    <h2>B 組<em>身份卡</em></h2>
-    <p class="lede">你們是「新光人壽服務承接與品質組」。你們負責判斷客戶需求、安排適合的人員，並提供後續諮詢服務。</p>
-    <div class="role-card">
-      <header><b>B</b><h3>新光人壽服務承接與品質組</h3></header>
-      <dl><dt>你們的目標</dt><dd>讓被轉介的客戶，由合適的人員在合理時間內獲得有品質的服務。</dd><dt>你們的 KPI</dt><dd>① 客戶與服務人員適配　② 服務品質與回覆時效　③ 承接量可負荷</dd><dt>你們的底線</dt><dd>不能接收未授權或資訊不足的客戶；不能承諾超過實際人力與專業能力的服務。</dd><dt>你們可討論的空間</dt><dd>試辦名額、服務主題、可預約時段與分流規則。</dd></dl>
-    </div>
-    <aside><small>請記住</small>你們不能只要求「資料越多越好」；每一項資料都必須有用途，並得到客戶清楚同意。</aside>
-  </section>
+    const STAKEHOLDER_THEMES = [
+      { color: '#2563EB', bg: '#EFF6FF', border: '#BFDBFE' },
+      { color: '#059669', bg: '#ECFDF5', border: '#A7F3D0' },
+      { color: '#D97706', bg: '#FFFBEB', border: '#FDE68A' },
+      { color: '#7C3AED', bg: '#F5F3FF', border: '#DDD6FE' },
+      { color: '#DC2626', bg: '#FEF2F2', border: '#FECACA' },
+      { color: '#DB2777', bg: '#FDF2F8', border: '#FBCFE8' },
+    ];
 
-  <section class="panel" hidden>
-    <h2>人員與<em>三輪對談</em></h2>
-    <p class="lede">每組可為 4、5 或 6 人。每一輪中，組員不是協作者，就是觀察員；前兩輪必須交換角色。</p>
-    <div class="roster"><header>每組人數與出場方式</header><table><thead><tr><th>每組人數</th><th>R1</th><th>R2</th></tr></thead><tbody><tr><th>4 人</th><td>2 位協作者<br>2 位觀察員</td><td>R1 觀察員改任協作者<br>R1 協作者改任觀察員</td></tr><tr><th>5 人</th><td>2 位協作者<br>3 位觀察員<br><small>或反向安排</small></td><td>3 位協作者<br>2 位觀察員<br><small>與 R1 人數、角色完全對調</small></td></tr><tr><th>6 人</th><td>3 位協作者<br>3 位觀察員</td><td>R1 觀察員改任協作者<br>R1 協作者改任觀察員</td></tr></tbody></table></div>
-    <aside><small>前兩輪的規則</small><strong>每位組員都必須有一次協作者角色、一次觀察員角色；不可固定由同一批人發言。</strong></aside>
-    <div class="purpose-card"><header><b>R1</b><h3>先理解</h3><span>彼此真正卡在哪裡？</span></header><p class="shared"><small>對談任務</small>說清楚本組目標、KPI、底線與限制；先確認三起客訴各自造成什麼問題。</p><p><small>留下來</small><strong>雙方都不能省略的條件，以及還需要問清楚的問題。</strong></p></div>
-    <div class="purpose-card"><header><b>R2</b><h3>談出試辦</h3><span>換人，也換角度</span></header><p class="shared"><small>對談任務</small>由 R1 的觀察員改任協作者；由 R1 的協作者改任觀察員，討論最小可行方案。</p><p><small>留下來</small><strong>客戶如何同意、傳送哪些必要資料、服務範圍／時段，以及兩組各自的責任。</strong></p></div>
-    <div class="purpose-card"><header><b>R3</b><h3>互換部門</h3><span>你真的理解對方嗎？</span></header><p class="shared"><small>對談任務</small>講師同時發下對方身份卡。兩組不先互相說明，僅用新身份卡在組內準備後，再進行一輪對談。</p><p><small>角色建議</small><strong>由 R2 的觀察員擔任協作者，R2 的協作者擔任觀察員；這一輪代表的是對方部門。</strong></p><p><small>留下來</small><strong>以新部門的角度說明：原方案最不能接受什麼，以及願意如何調整來換取合作。</strong></p></div>
-  </section>
+    const QUADRANT_STRATEGIES = {
+      Q1: {
+        name: '內部高籌碼',
+        quadrantName: '左上',
+        directionDesc: '內部・高籌碼/高資源側',
+        tag: '目標對齊・主動回報',
+        tagColor: 'bg-blue-100 text-blue-800 border-blue-200',
+        attitude: '積極透明、主動當責、預判需求',
+        focus: '資源爭取、效益回饋、消除決策盲點',
+        variants: [
+          { channels: '常態週報與關鍵節點對齊、專題匯報、高階一對一備忘錄', actionPrompt: '「依循上次指示推進，目前關鍵指標達標，需請您在資源配置上給予指導……」' },
+          { channels: '雙週重點里程碑檢視、決策風險預判簡報、非同步戰略要點同步', actionPrompt: '「向您簡報目前專案核心進程，已為您預判潛在變數並備妥因應對策，供您裁示……」' },
+          { channels: '月度經營方針列席對齊、重大效益交付簽核、不定期高層策略請益', actionPrompt: '「目前項目總體節奏穩定，特此向您呈報階段性成果，確保推進方向與整體大局一致……」' },
+          { channels: '專案里程碑專項會審、高階一對一面談、關鍵決策看板實時通報', actionPrompt: '「感謝主管先前的方向引領，目前重大節點皆已部署就緒，後續需請您協助把關整體資源……」' },
+          { channels: '重要決策前閉門諮詢、正式進度公文備忘、高階目標階段性覆核', actionPrompt: '「已按既定時程完成關鍵交付，為求效益極大化，想向您請教在跨事業體協調上的建議……」' },
+          { channels: '關鍵指標看板共享、定期高層晨會摘要、重大策略預算檢視', actionPrompt: '「目前執行均符合預期目標，針對下一階段之戰略推進，特別整理分析摘要請您指導……」' }
+        ]
+      },
+      Q2: {
+        name: '外部高籌碼',
+        quadrantName: '右上',
+        directionDesc: '外部・高籌碼/高資源側',
+        tag: '價值共創・風險管理',
+        tagColor: 'bg-amber-100 text-amber-800 border-amber-200',
+        attitude: '嚴謹審慎、契約共識、高度敬業',
+        focus: '商業雙贏、合規性維護、危機早防早控',
+        variants: [
+          { channels: '專案月度會審、正式公務信函、專題商業拜會', actionPrompt: '「為確保雙方預期目標一致，我們已針對關鍵時程做成風險評估，供貴方參酌確認……」' },
+          { channels: '雙週交付進度協調會、正式備忘錄（Minutes/MOU）、里程碑驗收會議', actionPrompt: '「感謝貴方長期以來的信任協作，本階段成果已達預定標準，特此提供檢視報告以利後續深化共創……」' },
+          { channels: '季度策略合作委員會、高階商務餐敘、合規專案法規諮詢', actionPrompt: '「為持續創造雙贏價值，我們已先行梳理法規與市場潛在影響，誠摯邀請貴方共同檢視優化方向……」' },
+          { channels: '關鍵節點正式進度通報、商務合約審視小組、外部專家聯席會審', actionPrompt: '「本團隊已如期完備關鍵承諾項目，針對下一階段合作細節，想向貴方請益並確立推展步驟……」' },
+          { channels: '雙邊專案高階會議、正式公務電子信件、重要里程碑公證檢驗', actionPrompt: '「特此呈遞本期成果驗證清冊，為確保整體進度順暢，誠邀貴方共同確立驗收關鍵指標……」' },
+          { channels: '策略夥伴季度座談、重大風險聯防通報、定期商務進程簡報', actionPrompt: '「為落實長期策略共識，我方已完備配套方案，盼與貴團隊預約會議研商後續協作時程……」' }
+        ]
+      },
+      Q3: {
+        name: '內部低籌碼',
+        quadrantName: '左下',
+        directionDesc: '內部・低籌碼/執行支援側',
+        tag: '賦能支持・情感維繫',
+        tagColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+        attitude: '同理傾聽、肯定貢獻、平易近人',
+        focus: '工作障礙排除、團隊士氣激勵、資訊橫向交流',
+        variants: [
+          { channels: '高頻非同步協作工具 (Slack/Teams)、日常站立晨會、茶水間茶敘交流', actionPrompt: '「大家這陣子辛苦了！手邊推進有沒有卡關的環節？我能協助向外協調哪些資源？」' },
+          { channels: '週度跨組進度對齊會、一對一工作痛點排查、非正式午餐小聚談心', actionPrompt: '「最近手頭任務份量還頂得住嗎？如果跨單位溝通有阻礙，隨時告訴我，我來替大家排除！」' },
+          { channels: '敏捷看板任務梳理、雙週小組復盤（Retro）、團隊打氣交流與成果分享', actionPrompt: '「看到大家這週的進度很有突破！想聽聽看在執行細節上，還有哪些流程可以幫大家做得更順暢？」' },
+          { channels: '即時通訊小組頻道、任務交付即時鳴謝、非正式工作坊協同討論', actionPrompt: '「這部分多虧有你把關！想確認一下後續執行有沒有遇到難處？需要找誰協同幫忙儘管說！」' },
+          { channels: '日常工作進度清單核對、跨部門支援工作聯繫、階段性犒賞與感謝小聚', actionPrompt: '「感謝夥伴們這段時間的全力投入！有任何需要支援或覺得不順暢的地方，我們一起來想辦法解決！」' },
+          { channels: '專案執行進度即時反饋、茶水間隨性交流、月度團隊士氣復盤會', actionPrompt: '「大家的付出我都看在眼裡！手邊的推進若需要主管層級協調其他部門，隨時跟我提出！」' }
+        ]
+      },
+      Q4: {
+        name: '外部低籌碼',
+        quadrantName: '右下',
+        directionDesc: '外部・低籌碼/外圍協力側',
+        tag: '穩定預期・資訊同步',
+        tagColor: 'bg-slate-100 text-slate-800 border-slate-200',
+        attitude: '明確具體、按部就班、誠信透明',
+        focus: '驗收規格對焦、交付品質達標、避免期程延誤',
+        variants: [
+          { channels: '工作聯絡單、專案共享進度看板、結案成果通報郵件', actionPrompt: '「依據合約規範進行驗收，請於本週五前將修改完成之交付物同步上傳……」' },
+          { channels: '雙週交付確認會議、規格對齊通訊郵件、執行里程碑追蹤表', actionPrompt: '「為避免期程延誤與規格落差，請貴方協助確認最新修訂之技術條款與驗收標準……」' },
+          { channels: '正式工作任務派送單、月度協同進度審查、例行驗收查核會', actionPrompt: '「感謝協力配合，請依既定排程於時限內回傳成果，以利我方儘速安排後續流程……」' },
+          { channels: '專案雲端共享資料夾、外包窗口單一對接信箱、期中查核通報', actionPrompt: '「請依照日前議定之標準規格推進，若有任何不確定之細節，請即刻提出以便釐清確認……」' },
+          { channels: '規格確認信函、雙週交付時程檢核單、驗收缺點改善清冊', actionPrompt: '「目前進度符合合約時程，後續批次之驗收基準已發送至信箱，請回簽確認以便歸檔……」' },
+          { channels: '專案進度即時看板、交付成果校驗回條、定期外包廠商溝通郵件', actionPrompt: '「提醒貴團隊下一階段交付結算日將至，請預先備妥必要之檢核報告以確保流程順暢……」' }
+        ]
+      }
+    };
 
-  <section class="panel" hidden>
-    <h2>觀察與<em>回饋</em></h2>
-    <p class="lede">觀察員只觀察，不發言、不提示、不補充資訊。每位觀察員只負責一個焦點。</p>
-    <div class="sheet"><header>觀察焦點｜二至三位觀察員分配</header><div><b>01</b><p>是否說出目標、KPI、底線與可協商空間？哪些重要資訊沒有被問出來？</p></div><div><b>02</b><p>哪一句話讓對方急躁、防衛、猶豫或願意合作？對方如何回應？</p></div><div><b>03</b><p>方案是否同時回應客戶、資料轉介與服務品質？下一步是否具體？</p></div></div>
-    <ul class="rules"><li><b>交叉回饋。</b>A 組觀察員回饋 B 組；B 組觀察員回饋 A 組。</li><li><b>每人 30 秒。</b>只說自己負責的觀察焦點。</li><li><b>固定句型。</b>「我觀察到……／這可能造成……／如果重談一次，我建議……」</li><li><b>不重啟談判。</b>被回饋者只可澄清，不反駁。</li></ul>
-  </section>
-  <section class="panel" hidden><h2>教具與<em>現場準備清單</em></h2><p class="lede">勾選狀態會保存在這台瀏覽器中；可刪除不需要的項目，或還原完整清單。</p><ul id="checklist"></ul><footer class="list-actions"><span id="count"></span><button id="reset">還原完整清單</button></footer></section>
-  <footer class="foot">跨界協作角色扮演案例｜可持續更新版本 v0.7</footer>
-</main><script src="app.js"></script></body></html>
+    const getQuadrantStrategyData = (qKey, indexInQuadrant = 0) => {
+      if (!qKey || !QUADRANT_STRATEGIES[qKey]) return null;
+      const base = QUADRANT_STRATEGIES[qKey];
+      const variants = base.variants || [];
+      const variant = variants[indexInQuadrant % variants.length] || variants[0];
+      return { ...base, channels: variant.channels, actionPrompt: variant.actionPrompt };
+    };
+
+    const truncateByWeight = (str, maxChars = 6) => {
+      if (!str) return "";
+      let count = 0, result = "";
+      for (const char of str) {
+        if (count + 1 <= maxChars) { count += 1; result += char; } else break;
+      }
+      return result;
+    };
+
+    // 格式：yymmdd-HHmm
+    const getFormattedTimestamp = () => {
+      const now = new Date();
+      const yy = String(now.getFullYear()).slice(-2);
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const HH = String(now.getHours()).padStart(2, '0');
+      const MM = String(now.getMinutes()).padStart(2, '0');
+      return `${yy}${mm}${dd}-${HH}${MM}`;
+    };
+
+    // 不透明純白底色頭像 SVG 元件
+    const AvatarIcon = ({ color, size = 52 }) => (
+      <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="31" fill="#ffffff" stroke={color} strokeWidth="4" />
+        <circle cx="32" cy="24" r="11" fill={color} fillOpacity="0.35" stroke={color} strokeWidth="3" />
+        <path d="M12 50C12 40.0589 20.9543 33 32 33C43.0457 33 52 40.0589 52 50" stroke={color} strokeWidth="3.5" strokeLinecap="round" />
+      </svg>
+    );
+
+    const App = () => {
+      const [meData, setMeData] = useState({ name: '', title: '', remarks: '' });
+      const [stakeholders, setStakeholders] = useState([]);
+      const [formData, setFormData] = useState({ name: '', title: '', remarks: '' });
+      const [editingStakeholder, setEditingStakeholder] = useState(null);
+      const [errorMsg, setErrorMsg] = useState('');
+      const [showWatermark, setShowWatermark] = useState(true);
+      
+      const [draggedId, setDraggedId] = useState(null);
+      const [isLiveDragging, setIsLiveDragging] = useState(null);
+      const [touchDraggingId, setTouchDraggingId] = useState(null);
+      
+      const [isDownloading, setIsDownloading] = useState(false);
+      const [modalMessage, setModalMessage] = useState(null);
+      const [pdfResultUrl, setPdfResultUrl] = useState(null);
+
+      const mapRef = useRef(null);
+      const tableContainerRef = useRef(null);
+      const MAX_STAKEHOLDERS = 6;
+
+      const getQuadrantKey = (x, y) => {
+        if (x === null || y === null) return null;
+        if (x < 50 && y < 50) return 'Q1';
+        if (x >= 50 && y < 50) return 'Q2';
+        if (x < 50 && y >= 50) return 'Q3';
+        return 'Q4';
+      };
+
+      const getDetailedPositionInfo = (x, y) => {
+        if (x === null || y === null) return null;
+        const qKey = getQuadrantKey(x, y);
+        const qStrategy = qKey ? QUADRANT_STRATEGIES[qKey] : null;
+        const rawDistance = Math.sqrt(Math.pow(x - 50, 2) + Math.pow(y - 50, 2));
+        const normalizedDistance = Math.min(100, Math.round((rawDistance / 50) * 100));
+
+        let tierName = '', tierColor = '', tierInfluence = '';
+        // 核心（≦25%）
+        // 中度（26%-75%）
+        // 周邊（76%-100%）
+        if (normalizedDistance <= 25) {
+          tierName = '核心 (≦25%)'; 
+          tierColor = 'text-red-700 bg-red-100 border-red-200'; 
+          tierInfluence = '緊密互動・決策樞紐';
+        } else if (normalizedDistance <= 75) {
+          tierName = '中度 (26%-75%)'; 
+          tierColor = 'text-amber-700 bg-amber-100 border-amber-200'; 
+          tierInfluence = '定期推進・關鍵配合';
+        } else {
+          tierName = '周邊 (76%-100%)'; 
+          tierColor = 'text-blue-700 bg-blue-100 border-blue-200'; 
+          tierInfluence = '常態通報・定期周知';
+        }
+        return { quadrantKey: qKey, quadrantName: qStrategy?.quadrantName || '未定', directionDesc: qStrategy?.directionDesc || '未定', distancePercent: normalizedDistance, tierName, tierColor, tierInfluence };
+      };
+
+      const handleMeInputChange = (e) => {
+        const { name, value } = e.target;
+        setMeData(prev => ({ ...prev, [name]: truncateByWeight(value, 6) }));
+      };
+
+      const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        if (errorMsg) setErrorMsg('');
+        setFormData(prev => ({ ...prev, [name]: truncateByWeight(value, 6) }));
+      };
+
+      const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        if (errorMsg) setErrorMsg('');
+        setEditingStakeholder(prev => ({ ...prev, [name]: truncateByWeight(value, 6) }));
+      };
+
+      const checkIsDuplicate = (name, title, idToExclude = null) => {
+        const n = name.trim(), t = title.trim();
+        if (n === meData.name.trim() && t === meData.title.trim()) return true;
+        return stakeholders.some(s => s.id !== idToExclude && s.name.trim() === n && s.title.trim() === t);
+      };
+
+      const addStakeholder = (e) => {
+        e.preventDefault();
+        const newName = formData.name.trim(), newTitle = formData.title.trim();
+        if (!newName) return;
+        if (checkIsDuplicate(newName, newTitle)) { setErrorMsg('姓名與職銜組合不能重複'); return; }
+        if (stakeholders.length >= MAX_STAKEHOLDERS) return;
+
+        const usedIndices = stakeholders.map(s => s.themeIndex);
+        const nextThemeIndex = [0, 1, 2, 3, 4, 5].find(idx => !usedIndices.includes(idx)) ?? (stakeholders.length % STAKEHOLDER_THEMES.length);
+
+        setStakeholders(prev => [...prev, { ...formData, name: newName, title: newTitle, id: Date.now().toString(), x: null, y: null, isPlaced: false, themeIndex: nextThemeIndex }]);
+        setFormData({ name: '', title: '', remarks: '' });
+        setErrorMsg('');
+      };
+
+      const updateStakeholder = (e) => {
+        e.preventDefault();
+        const updatedName = editingStakeholder.name.trim();
+        const updatedTitle = editingStakeholder.title.trim();
+        if (checkIsDuplicate(updatedName, updatedTitle, editingStakeholder.id)) { setErrorMsg('姓名與職銜組合不能重複'); return; }
+        setStakeholders(prev => prev.map(s => s.id === editingStakeholder.id ? { ...editingStakeholder, name: updatedName, title: updatedTitle } : s));
+        setEditingStakeholder(null); setErrorMsg('');
+      };
+
+      const removeStakeholder = (id) => setStakeholders(prev => prev.filter(s => s.id !== id));
+
+      const handleLiveDragStart = (e, id) => {
+        if (e.button !== 0) return; e.preventDefault(); e.stopPropagation();
+        setIsLiveDragging(id);
+      };
+
+      useEffect(() => {
+        const handleGlobalMouseMove = (e) => {
+          if (!isLiveDragging || !mapRef.current) return;
+          const rect = mapRef.current.getBoundingClientRect();
+          if (rect.width === 0) return;
+          let x = Math.max(5, Math.min(95, ((e.clientX - rect.left) / rect.width) * 100));
+          let y = Math.max(5, Math.min(95, ((e.clientY - rect.top) / rect.height) * 100));
+          setStakeholders(prev => prev.map(s => s.id === isLiveDragging ? { ...s, x, y, isPlaced: true } : s));
+        };
+        const handleGlobalMouseUp = () => { if (isLiveDragging) setIsLiveDragging(null); };
+        if (isLiveDragging) {
+          window.addEventListener('mousemove', handleGlobalMouseMove);
+          window.addEventListener('mouseup', handleGlobalMouseUp);
+        }
+        return () => {
+          window.removeEventListener('mousemove', handleGlobalMouseMove);
+          window.removeEventListener('mouseup', handleGlobalMouseUp);
+        };
+      }, [isLiveDragging]);
+
+      const handleTouchStart = (e, id) => {
+        if (isDownloading) return;
+        setTouchDraggingId(id);
+      };
+
+      const handleTouchMove = (e) => {
+        if (!touchDraggingId || !mapRef.current) return;
+        const touch = e.touches[0];
+        const rect = mapRef.current.getBoundingClientRect();
+        if (rect.width === 0) return;
+        let x = Math.max(5, Math.min(95, ((touch.clientX - rect.left) / rect.width) * 100));
+        let y = Math.max(5, Math.min(95, ((touch.clientY - rect.top) / rect.height) * 100));
+        setStakeholders(prev => prev.map(s => s.id === touchDraggingId ? { ...s, x, y, isPlaced: true } : s));
+        if (e.cancelable) e.preventDefault();
+      };
+
+      const handleTouchEnd = () => setTouchDraggingId(null);
+
+      const handleDropOnMap = (e) => {
+        e.preventDefault();
+        const id = e.dataTransfer.getData('text/plain') || draggedId;
+        if (!id || !mapRef.current) return;
+        const rect = mapRef.current.getBoundingClientRect();
+        if (rect.width === 0) return;
+        let x = Math.max(5, Math.min(95, ((e.clientX - rect.left) / rect.width) * 100));
+        let y = Math.max(5, Math.min(95, ((e.clientY - rect.top) / rect.height) * 100));
+        setStakeholders(prev => prev.map(s => s.id === id ? { ...s, x, y, isPlaced: true } : s));
+        setDraggedId(null);
+      };
+
+      const renderDomTextToCanvas = async (htmlContent, widthPx = 900) => {
+        const container = document.createElement('div');
+        container.style.width = `${widthPx}px`; container.style.position = 'absolute';
+        container.style.left = '-9999px'; container.style.top = '-9999px';
+        container.style.backgroundColor = '#ffffff'; container.innerHTML = htmlContent;
+        document.body.appendChild(container);
+        const canvas = await window.html2canvas(container, { scale: 1.5, backgroundColor: '#ffffff', logging: false });
+        document.body.removeChild(container);
+        return canvas;
+      };
+
+      const downloadPdfReport = async () => {
+        if (!mapRef.current || !window.html2canvas || !window.jspdf) return;
+        setIsDownloading(true);
+        setModalMessage('正在產生 PDF 報告，請稍候...');
+
+        try {
+          const { jsPDF } = window.jspdf;
+          const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+          const pageWidth = 210, pageHeight = 297, margin = 10, contentWidth = pageWidth - margin * 2;
+
+          const headerHtml = `<div style="padding: 6px 0 10px 0; border-bottom: 2px solid #e2e8f0;"><div style="font-size: 20px; font-weight: 900; color: #1e293b; margin-bottom: 4px;">利害關係人・相對關係圖與溝通行動對策報告</div><div style="font-size: 11px; font-weight: 600; color: #64748b;">分析主體：${meData.name || '未填寫'} ${meData.title ? `(${meData.title})` : ''} ｜ 產生時間：${getFormattedTimestamp()}</div></div>`;
+          const reportHeaderCanvas = await renderDomTextToCanvas(headerHtml, 1000);
+          const reportHeaderHeightInMm = (reportHeaderCanvas.height * contentWidth) / reportHeaderCanvas.width;
+          const reportHeaderImgData = reportHeaderCanvas.toDataURL('image/jpeg', 0.9);
+
+          const mapCanvas = await window.html2canvas(mapRef.current, {
+            scale: 1.2, useCORS: true, backgroundColor: '#ffffff', logging: false
+          });
+          const mapHeightInMm = (mapCanvas.height * contentWidth) / mapCanvas.width;
+          const mapImgData = mapCanvas.toDataURL('image/jpeg', 0.9);
+
+          let currentY = margin;
+          pdf.addImage(reportHeaderImgData, 'JPEG', margin, currentY, contentWidth, reportHeaderHeightInMm);
+          currentY += reportHeaderHeightInMm + 4;
+          pdf.addImage(mapImgData, 'JPEG', margin, currentY, contentWidth, mapHeightInMm);
+          currentY += mapHeightInMm + 6;
+
+          if (placedStakeholders.length > 0 && tableContainerRef.current) {
+            const tableContainer = tableContainerRef.current;
+            const tableHeaderEl = tableContainer.querySelector('thead');
+            const rows = tableContainer.querySelectorAll('tbody tr');
+
+            const tableTitleHtml = `<div style="padding: 4px 0 4px 0;"><div style="font-size: 15px; font-weight: 900; color: #1e293b;"><span style="color: #2563eb;">■</span> 利害關係人・溝通行動對策總表</div></div>`;
+            const tableTitleCanvas = await renderDomTextToCanvas(tableTitleHtml, 1000);
+            const tableTitleHeightInMm = (tableTitleCanvas.height * contentWidth) / tableTitleCanvas.width;
+            const tableTitleImgData = tableTitleCanvas.toDataURL('image/jpeg', 0.9);
+
+            let theadCanvas = null, theadHeightInMm = 0, theadImgData = null;
+            if (tableHeaderEl) {
+              theadCanvas = await window.html2canvas(tableHeaderEl, { scale: 1.2, useCORS: true, backgroundColor: '#f8fafc', logging: false });
+              theadHeightInMm = (theadCanvas.height * contentWidth) / theadCanvas.width;
+              theadImgData = theadCanvas.toDataURL('image/jpeg', 0.9);
+            }
+
+            let firstRowHeightInMm = 18;
+            if (rows.length > 0) {
+              const testRowCanvas = await window.html2canvas(rows[0], { scale: 1.2, useCORS: true, backgroundColor: '#ffffff', logging: false });
+              firstRowHeightInMm = (testRowCanvas.height * contentWidth) / testRowCanvas.width;
+            }
+
+            if (currentY + tableTitleHeightInMm + theadHeightInMm + firstRowHeightInMm > pageHeight - margin) {
+              pdf.addPage(); currentY = margin;
+            }
+
+            pdf.addImage(tableTitleImgData, 'JPEG', margin, currentY, contentWidth, tableTitleHeightInMm);
+            currentY += tableTitleHeightInMm + 2;
+            if (theadImgData) { pdf.addImage(theadImgData, 'JPEG', margin, currentY, contentWidth, theadHeightInMm); currentY += theadHeightInMm; }
+
+            for (let i = 0; i < rows.length; i++) {
+              const rowCanvas = await window.html2canvas(rows[i], { scale: 1.2, useCORS: true, backgroundColor: '#ffffff', logging: false });
+              const rowHeightInMm = (rowCanvas.height * contentWidth) / rowCanvas.width;
+              const rowImgData = rowCanvas.toDataURL('image/jpeg', 0.9);
+
+              if (currentY + rowHeightInMm > pageHeight - margin) {
+                pdf.addPage(); currentY = margin;
+                pdf.addImage(tableTitleImgData, 'JPEG', margin, currentY, contentWidth, tableTitleHeightInMm);
+                currentY += tableTitleHeightInMm + 2;
+                if (theadImgData) { pdf.addImage(theadImgData, 'JPEG', margin, currentY, contentWidth, theadHeightInMm); currentY += theadHeightInMm; }
+              }
+              pdf.addImage(rowImgData, 'JPEG', margin, currentY, contentWidth, rowHeightInMm);
+              currentY += rowHeightInMm;
+            }
+          }
+
+          const fileName = `利害關係人溝通行動對策報告_${getFormattedTimestamp()}.pdf`;
+          const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+          
+          if (isMobileDevice) {
+            const pdfBlob = pdf.output('blob');
+            const blobUrl = URL.createObjectURL(pdfBlob);
+            setPdfResultUrl(blobUrl);
+            setModalMessage('PDF 報告已成功產生！請點擊下方按鈕下載或預覽。');
+          } else {
+            pdf.save(fileName);
+            setIsDownloading(false);
+            setModalMessage(null);
+          }
+        } catch (e) {
+          console.error(e);
+          setModalMessage('PDF 產生過程發生錯誤，請重新整理後再試一次。');
+        } finally {
+          setIsDownloading(false);
+        }
+      };
+
+      const placedStakeholders = stakeholders.filter(s => s.isPlaced);
+      const quadrantCounterMap = {}, stakeholderStrategyMap = {};
+      placedStakeholders.forEach(s => {
+        const qKey = getQuadrantKey(s.x, s.y);
+        if (qKey) {
+          const idx = quadrantCounterMap[qKey] || 0;
+          quadrantCounterMap[qKey] = idx + 1;
+          stakeholderStrategyMap[s.id] = getQuadrantStrategyData(qKey, idx);
+        }
+      });
+
+      return (
+        <div className="min-h-screen bg-slate-100 p-3 md:p-6 font-sans text-slate-900 select-none">
+          <div className="max-w-6xl mx-auto">
+            <header className="mb-4 border-b border-slate-200 pb-3 flex flex-col md:flex-row md:items-end justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-3">
+                  <h1 className="text-2xl md:text-3xl font-bold text-slate-800">利害關係人-相對關係圖</h1>
+                  {/* 右上角不顯眼灰色字體顯示更新時間 */}
+                  <span className="text-slate-400 text-xs font-mono tracking-tight" title="發布/更新時間">
+                    v_{getFormattedTimestamp()}
+                  </span>
+                </div>
+                <div className="mt-2 flex gap-2">
+                  <button 
+                    onClick={() => setShowWatermark(!showWatermark)} 
+                    className={`px-3 py-1.5 border rounded-xl text-xs font-bold transition-all ${showWatermark ? 'bg-blue-600 text-white shadow-sm' : 'bg-white text-slate-600'}`}
+                  >
+                    策略提示：{showWatermark ? '顯示中' : '隱藏中'}
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-col md:items-end gap-1">
+                <span className="text-slate-400 text-[11px] font-mono select-all">
+                  {getFormattedTimestamp()}
+                </span>
+                <button 
+                  onClick={downloadPdfReport}
+                  disabled={isDownloading || placedStakeholders.length === 0} 
+                  className={`w-full md:w-auto px-5 py-2.5 rounded-xl font-bold text-white shadow-md transition-all ${placedStakeholders.length === 0 ? 'bg-slate-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 active:scale-95'}`}
+                >
+                  {isDownloading ? 'PDF 產生中...' : '匯出 PDF 報告 (含對策表)'}
+                </button>
+              </div>
+            </header>
+
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 items-start">
+              {/* 左側表單與待分配區 */}
+              <div className="lg:col-span-1 space-y-3">
+                <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-blue-200">
+                  <h2 className="text-sm font-bold mb-2 text-blue-800">「我」的資訊 (最多6字)</h2>
+                  <input type="text" name="name" value={meData.name} onChange={handleMeInputChange} maxLength={6} className="w-full px-3 py-2 bg-blue-50 border border-blue-100 rounded-lg text-xs mb-2 font-bold focus:outline-blue-500" placeholder="我的姓名 *" />
+                  <input type="text" name="title" value={meData.title} onChange={handleMeInputChange} maxLength={6} className="w-full px-3 py-2 bg-blue-50 border border-blue-100 rounded-lg text-xs focus:outline-blue-500" placeholder="我的職銜" />
+                </div>
+
+                <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200">
+                  <h2 className="text-sm font-bold mb-2 text-slate-700">1. 新增利害關係人 (最多6字)</h2>
+                  <form onSubmit={addStakeholder} className="space-y-2.5">
+                    <input type="text" name="name" value={formData.name} onChange={handleInputChange} maxLength={6} className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-slate-500" placeholder="姓名 *" required />
+                    <input type="text" name="title" value={formData.title} onChange={handleInputChange} maxLength={6} className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-slate-500" placeholder="職銜" />
+                    {errorMsg && <div className="text-red-500 text-[10px] font-bold">{errorMsg}</div>}
+                    <button type="submit" disabled={stakeholders.length >= MAX_STAKEHOLDERS || !meData.name.trim()} className="w-full py-2 bg-slate-800 text-white rounded-lg text-xs font-bold hover:bg-black disabled:bg-slate-200 transition-all">新增</button>
+                  </form>
+                </div>
+
+                <div className="bg-white/70 p-3 rounded-2xl border-2 border-dashed border-slate-300 min-h-[90px]">
+                  <h3 className="text-[10px] font-bold text-slate-400 uppercase mb-2">2. 待分配圖像 (拖曳至右側圖中)</h3>
+                  <div className="flex flex-wrap gap-2.5 justify-center">
+                    {stakeholders.filter(s => !s.isPlaced).map(s => (
+                      <div 
+                        key={s.id} 
+                        draggable 
+                        onDragStart={(e) => { e.dataTransfer.setData('text/plain', s.id); setDraggedId(s.id); }} 
+                        onTouchStart={(e) => handleTouchStart(e, s.id)} 
+                        onTouchMove={handleTouchMove} 
+                        onTouchEnd={handleTouchEnd}
+                        className="flex flex-col items-center cursor-grab touch-none p-1 group"
+                      >
+                        <div className="relative">
+                          <AvatarIcon color={STAKEHOLDER_THEMES[s.themeIndex]?.color || '#2563EB'} size={40} />
+                          <button 
+                            onClick={() => removeStakeholder(s.id)}
+                            className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold shadow opacity-80 hover:opacity-100"
+                          >
+                            ×
+                          </button>
+                        </div>
+                        <span className="text-[10px] font-bold mt-1 text-slate-700">{s.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {}
+              <div className="lg:col-span-3 space-y-4">
+                <div 
+                  ref={mapRef} 
+                  onDragOver={(e) => e.preventDefault()} 
+                  onDrop={handleDropOnMap} 
+                  className="relative bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden aspect-[4/3] min-h-[460px] w-full flex items-center justify-center select-none"
+                >
+                  {/* 四象限底色與策略文字 */}
+                  <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 pointer-events-none z-0">
+                    <div className="border-r border-b border-slate-100 bg-blue-50/15 flex flex-col items-center justify-center">{showWatermark && <span className="text-blue-500 text-xs font-black opacity-50">左上：目標對齊・主動回報</span>}</div>
+                    <div className="border-b border-slate-100 bg-amber-50/15 flex flex-col items-center justify-center">{showWatermark && <span className="text-amber-500 text-xs font-black opacity-50">右上：價值共創・風險管理</span>}</div>
+                    <div className="border-r border-slate-100 bg-emerald-50/15 flex flex-col items-center justify-center">{showWatermark && <span className="text-emerald-500 text-xs font-black opacity-50">左下：賦能支持・情感維繫</span>}</div>
+                    <div className="bg-slate-50/15 flex flex-col items-center justify-center">{showWatermark && <span className="text-slate-500 text-xs font-black opacity-50">右下：穩定預期・資訊同步</span>}</div>
+                  </div>
+
+                  {/* 三層紅色同心圓（對應比例：100% 周邊、75% 中度、25% 核心，取消外圍層） */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                    <div className="absolute w-[100%] aspect-square rounded-full bg-red-100/30"></div>
+                    <div className="absolute w-[75%] aspect-square rounded-full bg-red-200/40"></div>
+                    <div className="absolute w-[25%] aspect-square rounded-full bg-red-300/50"></div>
+                  </div>
+
+                  {/* 座標十字軸線 */}
+                  <div className="absolute top-1/2 left-0 right-0 h-px bg-slate-400/40 z-10"></div>
+                  <div className="absolute left-1/2 top-0 bottom-0 w-px bg-slate-400/40 z-10"></div>
+
+                  {/* 四周軸向標籤 */}
+                  <div className="absolute top-2 left-0 right-0 flex justify-center pointer-events-none z-20">
+                    <span className="bg-white/95 px-3 py-1 rounded-full shadow-sm text-xs font-bold text-blue-700 border border-blue-100">資源｜籌碼較多</span>
+                  </div>
+                  <div className="absolute bottom-2 left-0 right-0 flex justify-center pointer-events-none z-20">
+                    <span className="bg-white/95 px-3 py-1 rounded-full shadow-sm text-xs font-bold text-emerald-700 border border-emerald-100">資源｜籌碼較少</span>
+                  </div>
+                  <div className="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none z-20">
+                    <span className="bg-white/95 px-2 py-2 rounded-xl shadow-sm text-xs font-bold text-slate-700 border border-slate-200 flex flex-col items-center">
+                      <span>內</span><span>部</span><span>關</span><span>係</span><span>人</span>
+                    </span>
+                  </div>
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none z-20">
+                    <span className="bg-white/95 px-2 py-2 rounded-xl shadow-sm text-xs font-bold text-slate-700 border border-slate-200 flex flex-col items-center">
+                      <span>外</span><span>部</span><span>關</span><span>係</span><span>人</span>
+                    </span>
+                  </div>
+
+                  {/* 中心點「我」 */}
+                  <div className="absolute inset-0 flex items-center justify-center z-[100] pointer-events-none">
+                    <div className="w-14 h-14 bg-blue-600 rounded-full border-4 border-white shadow-xl flex items-center justify-center text-white font-black text-lg">
+                      我
+                    </div>
+                  </div>
+
+                  {/* 放置於圖上的利害關係人 */}
+                  {placedStakeholders.map(s => {
+                    const theme = STAKEHOLDER_THEMES[s.themeIndex] || STAKEHOLDER_THEMES[0];
+                    const qStrategy = stakeholderStrategyMap[s.id] || getQuadrantStrategyData(getQuadrantKey(s.x, s.y), 0);
+                    return (
+                      <div 
+                        key={s.id} 
+                        style={{ left: `${s.x}%`, top: `${s.y}%`, transform: 'translate(-50%, -50%)', zIndex: 300 }} 
+                        className="absolute flex flex-col items-center cursor-grab active:cursor-grabbing touch-none group" 
+                        onMouseDown={(e) => handleLiveDragStart(e, s.id)} 
+                        onTouchStart={(e) => handleTouchStart(e, s.id)}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                        onDoubleClick={() => { setErrorMsg(''); setEditingStakeholder(s); }}
+                      >
+                        <div className="relative p-0.5 bg-white rounded-full shadow-lg border-2 border-transparent group-hover:border-blue-500">
+                          <AvatarIcon color={theme.color} size={48} />
+                          <button 
+                            onMouseDown={(e) => e.stopPropagation()} 
+                            onClick={(e) => { e.stopPropagation(); removeStakeholder(s.id); }} 
+                            className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold shadow opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            ×
+                          </button>
+                        </div>
+                        <div className="mt-[-2px] text-center pointer-events-none flex flex-col items-center z-[310]">
+                          <div className="bg-white/95 px-2.5 py-0.5 rounded-full shadow border border-slate-100 text-[11px] font-bold flex items-center gap-1 whitespace-nowrap">
+                            <span className="text-slate-900">{s.name}</span>
+                            {s.title && <span className="text-slate-400 font-normal text-[10px]">({s.title})</span>}
+                          </div>
+                          {qStrategy && <div className={`px-2 py-0.5 rounded-full border text-[9px] font-bold mt-0.5 ${qStrategy.tagColor}`}>{qStrategy.tag}</div>}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {}
+                {placedStakeholders.length > 0 && (
+                  <div ref={tableContainerRef} className="bg-white p-4 rounded-3xl shadow-xl border border-slate-200 overflow-x-auto">
+                    <h3 className="text-base font-black text-slate-800 mb-3 flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+                      利害關係人・溝通行動對策總表
+                    </h3>
+                    <table className="w-full text-left text-xs border-collapse min-w-[580px]">
+                      <thead>
+                        <tr className="bg-slate-50 text-slate-500 border-b border-slate-200">
+                          <th className="py-2.5 px-2 font-bold">對象與職稱</th>
+                          <th className="py-2.5 px-2 font-bold">位置與向度說明</th>
+                          <th className="py-2.5 px-2 font-bold">核心態度與策略方針</th>
+                          <th className="py-2.5 px-2 font-bold">建議頻率與互動管道</th>
+                          <th className="py-2.5 px-2 font-bold">溝通起手式 / 備註指引</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {placedStakeholders.map(s => {
+                          const qStrategy = stakeholderStrategyMap[s.id] || getQuadrantStrategyData(getQuadrantKey(s.x, s.y), 0);
+                          const theme = STAKEHOLDER_THEMES[s.themeIndex] || STAKEHOLDER_THEMES[0];
+                          const posInfo = getDetailedPositionInfo(s.x, s.y);
+                          return (
+                            <tr key={s.id} className="hover:bg-blue-50/30 transition-colors">
+                              <td className="py-3 px-2">
+                                <div className="flex items-center gap-1.5">
+                                  <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: theme.color }}></span>
+                                  <div>
+                                    <span className="font-extrabold text-slate-800">{s.name}</span>
+                                    {s.title && <span className="text-slate-400 text-[10px] ml-1">({s.title})</span>}
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="py-3 px-2">
+                                <span className={`inline-block px-2 py-0.5 rounded-full border text-[10px] font-bold ${qStrategy?.tagColor}`}>{posInfo?.quadrantName}</span>
+                                <div className="text-[10px] text-slate-400 mt-0.5">{posInfo?.tierName}</div>
+                              </td>
+                              <td className="py-3 px-2 font-bold text-slate-700">{qStrategy?.attitude}</td>
+                              <td className="py-3 px-2 font-medium text-slate-600">{qStrategy?.channels}</td>
+                              <td className="py-3 px-2 italic bg-slate-50 text-slate-700 rounded-lg">{qStrategy?.actionPrompt}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {}
+          {editingStakeholder && (
+            <div className="fixed inset-0 z-[400] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+              <div className="bg-white rounded-3xl shadow-2xl w-full p-6 max-w-sm">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-base font-bold text-slate-800">編輯利害關係人 (最多6字)</h3>
+                  <button onClick={() => setEditingStakeholder(null)} className="text-slate-400 font-bold text-xl hover:text-slate-600">×</button>
+                </div>
+                <form onSubmit={updateStakeholder} className="space-y-3">
+                  <div>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase">姓名 *</label>
+                    <input type="text" name="name" value={editingStakeholder.name} onChange={handleEditChange} maxLength={6} className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold mt-1 focus:outline-blue-500" required />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase">職銜</label>
+                    <input type="text" name="title" value={editingStakeholder.title} onChange={handleEditChange} maxLength={6} className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs mt-1 focus:outline-blue-500" />
+                  </div>
+                  {errorMsg && <div className="text-red-500 text-[10px] font-bold">{errorMsg}</div>}
+                  <div className="flex gap-2 pt-2">
+                    <button type="button" onClick={() => setEditingStakeholder(null)} className="flex-1 py-2 bg-slate-100 text-slate-600 rounded-xl font-bold text-xs hover:bg-slate-200">取消</button>
+                    <button type="submit" className="flex-1 py-2 bg-blue-600 text-white rounded-xl font-bold text-xs hover:bg-blue-700">儲存</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {modalMessage && (
+            <div className="fixed inset-0 z-[500] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+              <div className="bg-white rounded-3xl shadow-2xl w-full p-6 max-w-sm text-center">
+                <h3 className="text-base font-bold text-slate-800 mb-2">通知</h3>
+                <p className="text-xs text-slate-600 leading-relaxed mb-4">{modalMessage}</p>
+                {pdfResultUrl && (
+                  <div className="space-y-2 mb-4">
+                    <a href={pdfResultUrl} download={`利害關係人報告_${getFormattedTimestamp()}.pdf`} className="block w-full py-2.5 bg-blue-600 text-white rounded-xl font-bold text-xs shadow-md">
+                      點擊下載 PDF 檔案
+                    </a>
+                  </div>
+                )}
+                <button onClick={() => { setModalMessage(null); setPdfResultUrl(null); }} className="w-full py-2 bg-slate-200 text-slate-700 rounded-xl font-bold text-xs hover:bg-slate-300">關閉</button>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
