@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>利害關係人-相對關係圖</title>
+  <title>利害關係人-視覺地圖</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -58,13 +58,17 @@
         tagColor: 'bg-blue-100 text-blue-800 border-blue-200',
         attitude: '積極透明、主動當責、預判需求',
         focus: '資源爭取、效益回饋、消除決策盲點',
-        variants: [
-          { channels: '常態週報與關鍵節點對齊、專題匯報、高階一對一備忘錄', actionPrompt: '「依循上次指示推進，目前關鍵指標達標，需請您在資源配置上給予指導……」' },
-          { channels: '雙週重點里程碑檢視、決策風險預判簡報、非同步戰略要點同步', actionPrompt: '「向您簡報目前專案核心進程，已為您預判潛在變數並備妥因應對策，供您裁示……」' },
-          { channels: '月度經營方針列席對齊、重大效益交付簽核、不定期高層策略請益', actionPrompt: '「目前項目總體節奏穩定，特此向您呈報階段性成果，確保推進方向與整體大局一致……」' },
-          { channels: '專案里程碑專項會審、高階一對一面談、關鍵決策看板實時通報', actionPrompt: '「感謝主管先前的方向引領，目前重大節點皆已部署就緒，後續需請您協助把關整體資源……」' },
-          { channels: '重要決策前閉門諮詢、正式進度公文備忘、高階目標階段性覆核', actionPrompt: '「已按既定時程完成關鍵交付，為求效益極大化，想向您請教在跨事業體協調上的建議……」' },
-          { channels: '關鍵指標看板共享、定期高層晨會摘要、重大策略預算檢視', actionPrompt: '「目前執行均符合預期目標，針對下一階段之戰略推進，特別整理分析摘要請您指導……」' }
+        // 核心圈 (≦25%)：精準明確、直指要點、具體決策或數據請求
+        coreVariants: [
+          { channels: '高階一對一專題決策會、重要節點備忘錄', actionPrompt: '「處長，專案已達本階段關鍵指標 100%。為確保下季交付，目前需申請預算與人力配置，已備妥 A/B 方案與效益分析，請您裁示。」' },
+          { channels: '雙週關鍵里程碑會審、決策風險預判專報', actionPrompt: '「向您簡報核心進程：目前已鎖定重大交付點，關鍵卡點在於跨部門資源對齊，需請您於週四前拍板核定以利推進。」' },
+          { channels: '月度戰略方針專項呈核、高層閉門決策會', actionPrompt: '「依據先前方針指示，本週將完成核心架構定案。為求效益極大化，特整理 2 項重大變數評估，需向您請示決策方向。」' }
+        ],
+        // 一般圈 (26%-100%)：一般商務、平順溝通、常態同步
+        generalVariants: [
+          { channels: '常態週報重點對齊、部門進度摘要郵件', actionPrompt: '「向您簡報目前專案進程，各項作業皆依序推展中，特此向您呈報階段性摘要，確保推進方向與整體大局目標一致……」' },
+          { channels: '月度經營方針列席對齊、定期策略請益', actionPrompt: '「目前項目總體節奏穩定，後續推進若有需要調整或深化之處，請主管隨時給予指導……」' },
+          { channels: '非同步戰略要點同步、關鍵指標看板共享', actionPrompt: '「特此呈報近期執行進度摘要，後續重要里程碑若有更新，會第一時間向您回報……」' }
         ]
       },
       Q2: {
@@ -75,13 +79,17 @@
         tagColor: 'bg-amber-100 text-amber-800 border-amber-200',
         attitude: '嚴謹審慎、契約共識、高度敬業',
         focus: '商業雙贏、合規性維護、危機早防早控',
-        variants: [
-          { channels: '專案月度會審、正式公務信函、專題商業拜會', actionPrompt: '「為確保雙方預期目標一致，我們已針對關鍵時程做成風險評估，供貴方參酌確認……」' },
-          { channels: '雙週交付進度協調會、正式備忘錄（Minutes/MOU）、里程碑驗收會議', actionPrompt: '「感謝貴方長期以來的信任協作，本階段成果已達預定標準，特此提供檢視報告以利後續深化共創……」' },
-          { channels: '季度策略合作委員會、高階商務餐敘、合規專案法規諮詢', actionPrompt: '「為持續創造雙贏價值，我們已先行梳理法規與市場潛在影響，誠摯邀請貴方共同檢視優化方向……」' },
-          { channels: '關鍵節點正式進度通報、商務合約審視小組、外部專家聯席會審', actionPrompt: '「本團隊已如期完備關鍵承諾項目，針對下一階段合作細節，想向貴方請益並確立推展步驟……」' },
-          { channels: '雙邊專案高階會議、正式公務電子信件、重要里程碑公證檢驗', actionPrompt: '「特此呈遞本期成果驗證清冊，為確保整體進度順暢，誠邀貴方共同確立驗收關鍵指標……」' },
-          { channels: '策略夥伴季度座談、重大風險聯防通報、定期商務進程簡報', actionPrompt: '「為落實長期策略共識，我方已完備配套方案，盼與貴團隊預約會議研商後續協作時程……」' }
+        // 核心圈 (≦25%)：精準明確、確立權責與關鍵時程條款
+        coreVariants: [
+          { channels: '合約與交付高階會審、正式公務信函', actionPrompt: '「貴方團隊好，本階段驗收標準已達 95%，剩餘項目預計於 10 日內全數交付。附上正式檢驗清冊，請貴方於本週確認驗收期程。」' },
+          { channels: '商務決策聯席會議、里程碑驗收備忘錄', actionPrompt: '「為確保雙方商業目標達成，我們已梳理 2 項法規風險並備妥因應對策。建議於明日召開 20 分鐘決策會審確立推展步驟。」' },
+          { channels: '策略夥伴季度高峰會、合規風險簽核單', actionPrompt: '「本團隊已如期完備關鍵承諾項目，針對下一階段之權責劃分與資源投入，特提送具體備忘錄請貴方確認簽署。」' }
+        ],
+        // 一般圈 (26%-100%)：一般商務合作交流語氣
+        generalVariants: [
+          { channels: '專案月度會審、定期商務進程簡報', actionPrompt: '「感謝貴方長期以來的信任協作，本階段進度順暢，特此提供進度簡報以利後續交流深化……」' },
+          { channels: '雙週交付協調會、正式進度通報信箱', actionPrompt: '「持續與貴團隊保持密切聯繫，附上本期進度概要，若有任何建議歡迎隨時交流研商……」' },
+          { channels: '外部專家聯席諮詢、商務交流座談', actionPrompt: '「為落實長期策略共識，我方已備妥配套方案，盼與貴方團隊預約會議研商後續協作時程……」' }
         ]
       },
       Q3: {
@@ -92,13 +100,17 @@
         tagColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
         attitude: '同理傾聽、肯定貢獻、平易近人',
         focus: '工作障礙排除、團隊士氣激勵、資訊橫向交流',
-        variants: [
-          { channels: '高頻非同步協作工具 (Slack/Teams)、日常站立晨會、茶水間茶敘交流', actionPrompt: '「大家這陣子辛苦了！手邊推進有沒有卡關的環節？我能協助向外協調哪些資源？」' },
-          { channels: '週度跨組進度對齊會、一對一工作痛點排查、非正式午餐小聚談心', actionPrompt: '「最近手頭任務份量還頂得住嗎？如果跨單位溝通有阻礙，隨時告訴我，我來替大家排除！」' },
-          { channels: '敏捷看板任務梳理、雙週小組復盤（Retro）、團隊打氣交流與成果分享', actionPrompt: '「看到大家這週的進度很有突破！想聽聽看在執行細節上，還有哪些流程可以幫大家做得更順暢？」' },
-          { channels: '即時通訊小組頻道、任務交付即時鳴謝、非正式工作坊協同討論', actionPrompt: '「這部分多虧有你把關！想確認一下後續執行有沒有遇到難處？需要找誰協同幫忙儘管說！」' },
-          { channels: '日常工作進度清單核對、跨部門支援工作聯繫、階段性犒賞與感謝小聚', actionPrompt: '「感謝夥伴們這段時間的全力投入！有任何需要支援或覺得不順暢的地方，我們一起來想辦法解決！」' },
-          { channels: '專案執行進度即時反饋、茶水間隨性交流、月度團隊士氣復盤會', actionPrompt: '「大家的付出我都看在眼裡！手邊的推進若需要主管層級協調其他部門，隨時跟我提出！」' }
+        // 核心圈 (≦25%)：精準明確、直接點出關鍵阻礙與排他支援
+        coreVariants: [
+          { channels: '每日站立晨會卡點排查、一對一即時通訊', actionPrompt: '「夥伴們，距交付倒數 3 天，核心卡在 API 串接。請優先聚焦這 2 個 bug，其餘次要項目暫緩，跨單位協調由我直接排除！」' },
+          { channels: '敏捷看板關鍵衝刺檢核、任務即時通訊群組', actionPrompt: '「這週衝刺關鍵在於資料清理進度。目前落後約 10%，我已協調工程組調派支援，請大家今天 17:00 前同步最終狀態。」' },
+          { channels: '痛點排查工作坊、專案障礙通報管道', actionPrompt: '「這項功能上線攸關整體進度，手邊如果遇到跨部門權限卡關，請立刻在群組 @ 我，我 10 分鐘內替你打通流程！」' }
+        ],
+        // 一般圈 (26%-100%)：一般團隊協同、溫和傾聽語氣
+        generalVariants: [
+          { channels: '高頻非同步協作工具 (Slack/Teams)、茶水間交流', actionPrompt: '「大家這陣子辛苦了！手邊推進有沒有卡關的環節？如果需要協調哪些資源隨時告訴我！」' },
+          { channels: '週度跨組進度對齊會、非正式午餐小聚', actionPrompt: '「最近手頭任務份量還習慣嗎？有任何想優化流程的想法，大家隨時提出來一起聊聊！」' },
+          { channels: '雙週小組復盤會 (Retro)、團隊打氣交流', actionPrompt: '「看到大家這週的進度很有突破！想聽聽看在執行細節上，還有哪些流程可以幫大家做得更順暢？」' }
         ]
       },
       Q4: {
@@ -109,21 +121,25 @@
         tagColor: 'bg-slate-100 text-slate-800 border-slate-200',
         attitude: '明確具體、按部就班、誠信透明',
         focus: '驗收規格對焦、交付品質達標、避免期程延誤',
-        variants: [
-          { channels: '工作聯絡單、專案共享進度看板、結案成果通報郵件', actionPrompt: '「依據合約規範進行驗收，請於本週五前將修改完成之交付物同步上傳……」' },
-          { channels: '雙週交付確認會議、規格對齊通訊郵件、執行里程碑追蹤表', actionPrompt: '「為避免期程延誤與規格落差，請貴方協助確認最新修訂之技術條款與驗收標準……」' },
-          { channels: '正式工作任務派送單、月度協同進度審查、例行驗收查核會', actionPrompt: '「感謝協力配合，請依既定排程於時限內回傳成果，以利我方儘速安排後續流程……」' },
-          { channels: '專案雲端共享資料夾、外包窗口單一對接信箱、期中查核通報', actionPrompt: '「請依照日前議定之標準規格推進，若有任何不確定之細節，請即刻提出以便釐清確認……」' },
-          { channels: '規格確認信函、雙週交付時程檢核單、驗收缺點改善清冊', actionPrompt: '「目前進度符合合約時程，後續批次之驗收基準已發送至信箱，請回簽確認以便歸檔……」' },
-          { channels: '專案進度即時看板、交付成果校驗回條、定期外包廠商溝通郵件', actionPrompt: '「提醒貴團隊下一階段交付結算日將至，請預先備妥必要之檢核報告以確保流程順暢……」' }
+        // 核心圈 (≦25%)：精準明確、規定規格、時限與違約/驗收後果
+        coreVariants: [
+          { channels: '正式工作聯絡單、驗收缺點改善清冊', actionPrompt: '「廠商窗口您好，依合約第七條規定，請於本週五 17:00 前提交修正版檢驗報表。若逾期將影響驗收付款排程，請儘速回簽。」' },
+          { channels: '雙週交付時程檢核單、規格對齊通訊', actionPrompt: '「提醒貴方，第二批次規格驗收日為 10/20，請於今日提供最新測試紀錄，以確保符合技術驗收標準。」' },
+          { channels: '外包窗口單一對接信箱、期中查核通報', actionPrompt: '「請嚴格依照日前議定之標準規格推進，今日下班前請回傳完成度確認表，以利進行明日例行稽核。」' }
+        ],
+        // 一般圈 (26%-100%)：一般例行同步、通知語氣
+        generalVariants: [
+          { channels: '專案共享進度看板、結案成果通報郵件', actionPrompt: '「依據排程同步最新工作進度，若有任何不確定之規格細節，請即刻提出以便釐清確認……」' },
+          { channels: '月度協同進度審查、定期外包廠商郵件', actionPrompt: '「感謝協力配合，請依既定排程於時限內回傳成果，以利我方儘速安排後續流程……」' },
+          { channels: '專案雲端共享資料夾、例行驗收查核會', actionPrompt: '「提醒貴團隊下一階段交付結算日將至，請預先備妥必要之檢核報告以確保流程順暢……」' }
         ]
       }
     };
 
-    const getQuadrantStrategyData = (qKey, indexInQuadrant = 0) => {
+    const getQuadrantStrategyData = (qKey, isCore = false, indexInQuadrant = 0) => {
       if (!qKey || !QUADRANT_STRATEGIES[qKey]) return null;
       const base = QUADRANT_STRATEGIES[qKey];
-      const variants = base.variants || [];
+      const variants = isCore ? (base.coreVariants || base.variants) : (base.generalVariants || base.variants);
       const variant = variants[indexInQuadrant % variants.length] || variants[0];
       return { ...base, channels: variant.channels, actionPrompt: variant.actionPrompt };
     };
@@ -337,7 +353,7 @@
           const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
           const pageWidth = 210, pageHeight = 297, margin = 10, contentWidth = pageWidth - margin * 2;
 
-          const headerHtml = `<div style="padding: 6px 0 10px 0; border-bottom: 2px solid #e2e8f0;"><div style="font-size: 20px; font-weight: 900; color: #1e293b; margin-bottom: 4px;">利害關係人・相對關係圖與溝通行動對策報告</div><div style="font-size: 11px; font-weight: 600; color: #64748b;">分析主體：${meData.name || '未填寫'} ${meData.title ? `(${meData.title})` : ''} ｜ 產生時間：${getFormattedTimestamp()}</div></div>`;
+          const headerHtml = `<div style="padding: 6px 0 10px 0; border-bottom: 2px solid #e2e8f0;"><div style="font-size: 20px; font-weight: 900; color: #1e293b; margin-bottom: 4px;">利害關係人・視覺地圖與溝通行動對策報告</div><div style="font-size: 11px; font-weight: 600; color: #64748b;">分析主體：${meData.name || '未填寫'} ${meData.title ? `(${meData.title})` : ''} ｜ 產生時間：${getFormattedTimestamp()}</div></div>`;
           const reportHeaderCanvas = await renderDomTextToCanvas(headerHtml, 1000);
           const reportHeaderHeightInMm = (reportHeaderCanvas.height * contentWidth) / reportHeaderCanvas.width;
           const reportHeaderImgData = reportHeaderCanvas.toDataURL('image/jpeg', 0.9);
@@ -359,7 +375,7 @@
             const tableHeaderEl = tableContainer.querySelector('thead');
             const rows = tableContainer.querySelectorAll('tbody tr');
 
-            const tableTitleHtml = `<div style="padding: 4px 0 4px 0;"><div style="font-size: 15px; font-weight: 900; color: #1e293b;"><span style="color: #2563eb;">■</span> 利害關係人・溝通行動對策總表</div></div>`;
+            const tableTitleHtml = `<div style="padding: 4px 0 4px 0;"><div style="font-size: 15px; font-weight: 900; color: #1e293b;"><span style="color: #2563eb;">■</span> 利害關係人・對話方式與行動對策總表</div></div>`;
             const tableTitleCanvas = await renderDomTextToCanvas(tableTitleHtml, 1000);
             const tableTitleHeightInMm = (tableTitleCanvas.height * contentWidth) / tableTitleCanvas.width;
             const tableTitleImgData = tableTitleCanvas.toDataURL('image/jpeg', 0.9);
@@ -427,9 +443,12 @@
       placedStakeholders.forEach(s => {
         const qKey = getQuadrantKey(s.x, s.y);
         if (qKey) {
+          const rawDistance = Math.sqrt(Math.pow(s.x - 50, 2) + Math.pow(s.y - 50, 2));
+          const normalizedDistance = Math.min(100, Math.round((rawDistance / 50) * 100));
+          const isCore = normalizedDistance <= 25;
           const idx = quadrantCounterMap[qKey] || 0;
           quadrantCounterMap[qKey] = idx + 1;
-          stakeholderStrategyMap[s.id] = getQuadrantStrategyData(qKey, idx);
+          stakeholderStrategyMap[s.id] = getQuadrantStrategyData(qKey, isCore, idx);
         }
       });
 
@@ -439,8 +458,8 @@
             <header className="mb-4 border-b border-slate-200 pb-3 flex flex-col md:flex-row md:items-end justify-between gap-3">
               <div>
                 <div className="flex items-center gap-3">
-                  <h1 className="text-2xl md:text-3xl font-bold text-slate-800">利害關係人-相對關係圖</h1>
-                  {/* 右上角不顯眼灰色字體顯示更新時間 */}
+                  <h1 className="text-2xl md:text-3xl font-bold text-slate-800">利害關係人-視覺地圖</h1>
+                  {/* 右上角不顯眼灰色字體顯示更新時間版本 */}
                   <span className="text-slate-400 text-xs font-mono tracking-tight" title="發布/更新時間">
                     v_{getFormattedTimestamp()}
                   </span>
@@ -455,9 +474,6 @@
                 </div>
               </div>
               <div className="flex flex-col md:items-end gap-1">
-                <span className="text-slate-400 text-[11px] font-mono select-all">
-                  {getFormattedTimestamp()}
-                </span>
                 <button 
                   onClick={downloadPdfReport}
                   disabled={isDownloading || placedStakeholders.length === 0} 
@@ -619,12 +635,15 @@
                           <th className="py-2.5 px-2 font-bold">位置與向度說明</th>
                           <th className="py-2.5 px-2 font-bold">核心態度與策略方針</th>
                           <th className="py-2.5 px-2 font-bold">建議頻率與互動管道</th>
-                          <th className="py-2.5 px-2 font-bold">溝通起手式 / 備註指引</th>
+                          <th className="py-2.5 px-2 font-bold">對話方式參考</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
                         {placedStakeholders.map(s => {
-                          const qStrategy = stakeholderStrategyMap[s.id] || getQuadrantStrategyData(getQuadrantKey(s.x, s.y), 0);
+                          const rawDistance = Math.sqrt(Math.pow(s.x - 50, 2) + Math.pow(s.y - 50, 2));
+                          const normalizedDistance = Math.min(100, Math.round((rawDistance / 50) * 100));
+                          const isCore = normalizedDistance <= 25;
+                          const qStrategy = stakeholderStrategyMap[s.id] || getQuadrantStrategyData(getQuadrantKey(s.x, s.y), isCore, 0);
                           const theme = STAKEHOLDER_THEMES[s.themeIndex] || STAKEHOLDER_THEMES[0];
                           const posInfo = getDetailedPositionInfo(s.x, s.y);
                           return (
